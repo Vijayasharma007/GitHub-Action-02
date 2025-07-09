@@ -31,7 +31,5 @@
   "mocha-junit-reporter": "^2.2.1",
   "mongoose": "5.13.20",
   "nyc": "^15.1.0",
-  "dotenv": "^16.4.5" // ✅ or latest version
-}
-
-}
+  "dotenv": "^16.4.5" 
+  }
