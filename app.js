@@ -99,31 +99,114 @@
 
 
 
+
+
+
+
+// const path = require('path');
+// const express = require('express');
+// const OS = require('os');
+// const bodyParser = require('body-parser');
+// const mongoose = require("mongoose"); // ✅ Declare ONCE at the top
+// const app = express();
+// const cors = require('cors');
+
+// app.use(bodyParser.json());
+// app.use(express.static(path.join(__dirname, '/')));
+// app.use(cors());
+
+// // ✅ Use correct connection
+// mongoose.connect('mongodb+srv://supercluster.d83jj.mongodb.net/superData', {
+//   user: 'admin',
+//   pass: 'admin123',
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// })
+// .then(() => console.log('✅ Connected to MongoDB Atlas'))
+// .catch(err => console.error('❌ MongoDB connection error:', err));
+
+// var Schema = mongoose.Schema;
+
+// var dataSchema = new Schema({
+//   name: String,
+//   id: Number,
+//   description: String,
+//   image: String,
+//   velocity: String,
+//   distance: String
+// });
+// var planetModel = mongoose.model('planets', dataSchema);
+
+// app.post('/planet', function (req, res) {
+//   planetModel.findOne({
+//     id: req.body.id
+//   }, function (err, planetData) {
+//     if (err) {
+//       console.error("Error finding planet:", err);
+//       res.status(500).send("Error in Planet Data");
+//     } else {
+//       res.send(planetData);
+//     }
+//   });
+// });
+
+// app.get('/', async (req, res) => {
+//   res.sendFile(path.join(__dirname, '/', 'index.html'));
+// });
+
+// app.get('/os', function (req, res) {
+//   res.setHeader('Content-Type', 'application/json');
+//   res.send({
+//     "os": OS.hostname(),
+//     "env": process.env.NODE_ENV
+//   });
+// });
+
+// app.get('/live', function (req, res) {
+//   res.setHeader('Content-Type', 'application/json');
+//   res.send({
+//     "status": "live"
+//   });
+// });
+
+// app.get('/ready', function (req, res) {
+//   res.setHeader('Content-Type', 'application/json');
+//   res.send({
+//     "status": "ready"
+//   });
+// });
+
+// app.listen(3000, () => {
+//   console.log("Server successfully running on port - " + 3000);
+// });
+
+// module.exports = app;
+// app.js
 const path = require('path');
 const express = require('express');
 const OS = require('os');
 const bodyParser = require('body-parser');
-const mongoose = require("mongoose"); // ✅ Declare ONCE at the top
-const app = express();
+const mongoose = require("mongoose");
 const cors = require('cors');
+require('dotenv').config(); // ✅ Load .env variables
+
+const app = express();
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/')));
 app.use(cors());
 
-// ✅ Use correct connection
-mongoose.connect('mongodb+srv://supercluster.d83jj.mongodb.net/superData', {
-  user: 'admin',
-  pass: 'admin123',
+// ✅ Connect using env variable
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
 .then(() => console.log('✅ Connected to MongoDB Atlas'))
 .catch(err => console.error('❌ MongoDB connection error:', err));
 
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-var dataSchema = new Schema({
+const dataSchema = new Schema({
   name: String,
   id: Number,
   description: String,
@@ -131,12 +214,11 @@ var dataSchema = new Schema({
   velocity: String,
   distance: String
 });
-var planetModel = mongoose.model('planets', dataSchema);
 
-app.post('/planet', function (req, res) {
-  planetModel.findOne({
-    id: req.body.id
-  }, function (err, planetData) {
+const planetModel = mongoose.model('planets', dataSchema);
+
+app.post('/planet', (req, res) => {
+  planetModel.findOne({ id: req.body.id }, (err, planetData) => {
     if (err) {
       console.error("Error finding planet:", err);
       res.status(500).send("Error in Planet Data");
@@ -146,11 +228,11 @@ app.post('/planet', function (req, res) {
   });
 });
 
-app.get('/', async (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/', 'index.html'));
 });
 
-app.get('/os', function (req, res) {
+app.get('/os', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.send({
     "os": OS.hostname(),
@@ -158,22 +240,18 @@ app.get('/os', function (req, res) {
   });
 });
 
-app.get('/live', function (req, res) {
+app.get('/live', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  res.send({
-    "status": "live"
-  });
+  res.send({ "status": "live" });
 });
 
-app.get('/ready', function (req, res) {
+app.get('/ready', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  res.send({
-    "status": "ready"
-  });
+  res.send({ "status": "ready" });
 });
 
 app.listen(3000, () => {
-  console.log("Server successfully running on port - " + 3000);
+  console.log("✅ Server successfully running on port 3000");
 });
 
 module.exports = app;
