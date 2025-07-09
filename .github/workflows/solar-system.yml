@@ -7,7 +7,7 @@ on:
       - main
       - 'feature/*'
     
-      
+
 jobs:
     unit-testing:
         name: Unit Testing
@@ -17,7 +17,7 @@ jobs:
           uses: actions/checkout@v4
 
         - name: Setup NodeJS Version
-          uses: actions/setup-node@v3
+          uses: actions/setup-node@v4
           with:
             node-version: 20
     
