@@ -202,7 +202,7 @@ mongoose.connect(process.env.MONGODB_URI, {
   useUnifiedTopology: true
 })
 .then(() => console.log('✅ Connected to MongoDB Atlas'))
-.catch(err => console.error('❌ MongoDB connection error:', err));
+// .catch(err => console.error('❌ MongoDB connection error:', err));
 
 const Schema = mongoose.Schema;
 
