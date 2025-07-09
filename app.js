@@ -11,18 +11,29 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/')));
 app.use(cors())
 
+// mongoose.connect('mongodb+srv://supercluster.d83jj.mongodb.net/superData', {
+//     user: 'admin',
+//     pass: 'admin123',
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+// }, function(err) {
+//     if (err) {
+//         console.log("error!! " + err)
+//     } else {
+//       //  console.log("MongoDB Connection Successful")
+//     }
+// })
+const mongoose = require('mongoose');
+
 mongoose.connect('mongodb+srv://supercluster.d83jj.mongodb.net/superData', {
-    user: 'admin',
-    pass: 'admin123',
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}, function(err) {
-    if (err) {
-        console.log("error!! " + err)
-    } else {
-      //  console.log("MongoDB Connection Successful")
-    }
+  user: 'admin',          // ✅ Atlas database username
+  pass: 'admin123',       // ✅ Atlas database password
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 })
+.then(() => console.log('✅ Connected to MongoDB Atlas'))
+.catch(err => console.error('❌ MongoDB connection error:', err));
+
 
 var Schema = mongoose.Schema;
 
